@@ -10,7 +10,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "ts-standard --fix && jest"
+    "test": "ts-standard --fix && jest",
+    "test-watch": "test --watchAll",
+    "test-coverage": "jest --collect-coverage --watchAll"
   },
   "dependencies": {
     "firebase": "^9.6.1",

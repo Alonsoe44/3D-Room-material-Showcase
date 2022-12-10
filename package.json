@@ -1,6 +1,6 @@
 {
   "private": true,
-  "ts-standard":{ 
+  "ts-standard": {
     "ignore": [
       "next-env.d.ts"
     ],
@@ -10,18 +10,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "ts-standard --fix"
+    "test": "ts-standard --fix && jest"
   },
   "dependencies": {
     "firebase": "^9.6.1",
     "next": "latest",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.12",
-    "@types/react": "18.0.1",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
     "autoprefixer": "^10.4.0",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "postcss": "^8.4.4",
     "tailwindcss": "^3.0.0",
     "ts-standard": "^12.0.1",

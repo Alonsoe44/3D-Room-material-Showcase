@@ -1,29 +1,26 @@
 import Image from 'next/legacy/image'
 import React, { useEffect, useState } from 'react'
-import RoomDisplayerMeasures from '../../interfaces/RoomDisplayerMeasures'
+import { itemPointerYPositionFinder } from '../../utils/helpers'
 import ItemPointer from '../itemPointer/ItemPointer'
 
 const RoomDisplayer = (): any => {
-  const [roomDisplayerMeasures, setRoomDisplayerMeasures] = useState({ height: 844, width: 390 })
+  const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState({ width: 390, point: 100 })
 
   useEffect(() => {
-    const roomDisplayerElement = document.querySelector('.room-displayer')
-    const roomDisplayerMeasures: RoomDisplayerMeasures = {
-      height: roomDisplayerElement?.clientHeight ?? 844,
-      width: roomDisplayerElement?.clientWidth ?? 390
-    }
-    console.log(roomDisplayerMeasures)
-    window.addEventListener('resize', () => setRoomDisplayerMeasures(roomDisplayerMeasures))
+    const roomDisplayerElement = document.querySelector('.room-displayer') as HTMLElement
+    window.addEventListener('resize', () => setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) }))
+    setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
+
     return () => {
       window.removeEventListener('resize', () =>
-        setRoomDisplayerMeasures(roomDisplayerMeasures)
+        setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
       )
     }
-  }, [roomDisplayerMeasures.width, roomDisplayerMeasures.height])
+  }, [roomDisplayerMeasurements.width, roomDisplayerMeasurements.point])
   return (
-    <div className='flex w-full justify-center'>
+    <section className='flex w-full justify-center'>
       <div className='flex flex-col items-center justify-center  h-screen w-screen max-w-[1420px]'>
-        <section className='w-full h-full relative '>
+        <div className='w-full h-full relative '>
           <Image
             alt='modern kitchen'
             className='-z-10 object-contain room-displayer'
@@ -31,10 +28,13 @@ const RoomDisplayer = (): any => {
             layout='fill'
             priority
           />
-          <ItemPointer roomDisplayerMeasures={roomDisplayerMeasures} />
-        </section>
+          <ItemPointer
+            pointerCoordinates={{ xCoordinate: 0, yCoordinate: roomDisplayerMeasurements.point }}
+            roomDisplayerWidth={roomDisplayerMeasurements.width}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -17,8 +17,8 @@ const ItemPointer = ({ pointerCoordinates: { xCoordinate, yCoordinate }, roomDis
   return (
     <motion.button
       className='absolute bottom-0'
-      initial={{ y: 0 }}
-      animate={{ y: yCoordinate }}
+      initial={{ y: 0, x: 0 }}
+      animate={{ y: yCoordinate, x: xCoordinate }}
       transition={{ duration: 0.2 }}
     >
       <Image

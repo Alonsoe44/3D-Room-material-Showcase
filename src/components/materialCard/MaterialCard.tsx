@@ -10,7 +10,6 @@ interface MaterialCardProps {
 }
 
 const MaterialCard = ({ materialName, materialImage, roomDisplayerWidth }: MaterialCardProps): any => {
-  console.log((1 / 1420) * roomDisplayerWidth)
   return (
     <motion.li
       className=' w-min my-3 rounded-md bg-lightContrast p-2 text-sm mx-2'

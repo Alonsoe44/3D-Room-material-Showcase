@@ -1,4 +1,5 @@
 const itemPointerSizeFinder = (size: number): number => (size / 20.8) <= 30 ? 30 : size / 20.8
+
 const itemPointerYPositionFinder = (displayerWidth: number): number => {
   let yPosition = 0
   if (typeof window !== 'undefined') {
@@ -7,4 +8,7 @@ const itemPointerYPositionFinder = (displayerWidth: number): number => {
   return -yPosition
 }
 
-export { itemPointerSizeFinder, itemPointerYPositionFinder }
+const absoluteYCoordinateFinder = (displayerWidth: number, relativeYCoordinate: number, baseYCoordinate: number): number => relativeYCoordinate - ((baseYCoordinate) / 100) * displayerWidth / 1.42 + 30
+const absoluteXCoordinateFinder = (displayerWidth: number, relativeXCoordinate: number): number => ((displayerWidth / 100) * relativeXCoordinate) - 10
+
+export { itemPointerSizeFinder, itemPointerYPositionFinder, absoluteYCoordinateFinder, absoluteXCoordinateFinder }

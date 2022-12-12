@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import MaterialCard from '../materialCard/MaterialCard'
 
 interface MenuCoordinates {
   xCoordinate: number
@@ -14,11 +15,15 @@ const MaterialsMenu = ({ menuCoordinates: { yCoordinate }, roomDisplayerWidth }:
   return (
     <motion.section
       initial={{ y: 0 }}
-      animate={{ y: -yCoordinate + 10 }}
+      animate={{ y: roomDisplayerWidth <= 1024 ? -yCoordinate - 90 : -yCoordinate + 10 }}
       transition={{ duration: 0.2 }}
-      className='absolute lg:right-10 right-3 w-40 bg-lightContrast'
+      className='absolute lg:right-3  2xl:w-88 lg:w-80 w-full bg-lightBG lg:bg-opacity-0'
     >
-      <ul><li>Magenta</li></ul>
+      <ul className='flex lg:flex-col flex-row overflow-x-scroll w-full'>
+        <MaterialCard materialImage='/none' materialName='Rock white' selected roomDisplayerWidth={roomDisplayerWidth} />
+        <MaterialCard materialImage='/none' materialName='Rock black' selected roomDisplayerWidth={roomDisplayerWidth} />
+        <MaterialCard materialImage='/none' materialName='Rock black' selected roomDisplayerWidth={roomDisplayerWidth} />
+      </ul>
     </motion.section>
   )
 }

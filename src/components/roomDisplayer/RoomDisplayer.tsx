@@ -2,6 +2,7 @@ import Image from 'next/legacy/image'
 import React, { useEffect, useState } from 'react'
 import { itemPointerYPositionFinder } from '../../utils/helpers'
 import ItemPointer from '../itemPointer/ItemPointer'
+import MaterialsMenu from '../materialsMenu/MaterialsMenu'
 
 const RoomDisplayer = (): any => {
   const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState({ width: 390, point: 100 })
@@ -30,6 +31,10 @@ const RoomDisplayer = (): any => {
           />
           <ItemPointer
             pointerCoordinates={{ xCoordinate: 0, yCoordinate: roomDisplayerMeasurements.point }}
+            roomDisplayerWidth={roomDisplayerMeasurements.width}
+          />
+          <MaterialsMenu
+            menuCoordinates={{ yCoordinate: roomDisplayerMeasurements.point, xCoordinate: 0 }}
             roomDisplayerWidth={roomDisplayerMeasurements.width}
           />
         </div>

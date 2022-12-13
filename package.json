@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "test": "ts-standard --fix && jest",
-    "test-watch": "test --watchAll",
+    "test-watch": "jest --watchAll",
     "test-coverage": "jest --collect-coverage --watchAll"
   },
   "dependencies": {
@@ -22,6 +22,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@swc/core": "^1.3.22",
+    "@swc/jest": "^0.2.24",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.12",

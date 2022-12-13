@@ -1,23 +1,32 @@
+import { collection, getDocs } from 'firebase/firestore/lite'
 import Image from 'next/legacy/image'
 import React, { useEffect, useState } from 'react'
-import { itemPointerYPositionFinder } from '../../utils/helpers'
+import ItemSelector from '../../interfaces/ItemSelector'
+import RoomDisplayerMeasurements from '../../interfaces/RoomDisplayerMeasurements'
+import { db, getItemSelectorsCoordinates } from '../../utils/firebaseApp'
+import { absoluteXCoordinateFinder, absoluteYCoordinateFinder, itemPointerYPositionFinder } from '../../utils/helpers'
 import ItemPointer from '../itemPointer/ItemPointer'
 import MaterialsMenu from '../materialsMenu/MaterialsMenu'
 
 const RoomDisplayer = (): any => {
-  const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState({ width: 390, point: 100 })
-
+  const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState<RoomDisplayerMeasurements>({ width: 390, baseYCoordinate: 100 })
+  const [itemSelectors, setItemSelectors] = useState<ItemSelector[]>([])
+  console.log(itemSelectors)
   useEffect(() => {
+    (async () => {
+      setItemSelectors(await getItemSelectorsCoordinates(db, collection, getDocs))
+    })().catch((error) => console.log(error))
+
     const roomDisplayerElement = document.querySelector('.room-displayer') as HTMLElement
-    window.addEventListener('resize', () => setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) }))
-    setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
+    window.addEventListener('resize', () => setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) }))
+    setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
 
     return () => {
       window.removeEventListener('resize', () =>
-        setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, point: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
+        setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
       )
     }
-  }, [roomDisplayerMeasurements.width, roomDisplayerMeasurements.point])
+  }, [roomDisplayerMeasurements.width, roomDisplayerMeasurements.baseYCoordinate])
   return (
     <section className='flex w-full justify-center'>
       <div className='flex flex-col items-center justify-center  h-screen w-screen max-w-[1420px]'>
@@ -29,12 +38,18 @@ const RoomDisplayer = (): any => {
             layout='fill'
             priority
           />
-          <ItemPointer
-            pointerCoordinates={{ xCoordinate: 0, yCoordinate: roomDisplayerMeasurements.point }}
-            roomDisplayerWidth={roomDisplayerMeasurements.width}
-          />
+          {itemSelectors.map((itemSelector) =>
+            <ItemPointer
+              key={itemSelector.id}
+              pointerCoordinates={{
+                xCoordinate: absoluteXCoordinateFinder(roomDisplayerMeasurements.width, itemSelector.coordX),
+                yCoordinate: absoluteYCoordinateFinder(roomDisplayerMeasurements.width, roomDisplayerMeasurements.baseYCoordinate, itemSelector.coordY)
+              }}
+              roomDisplayerWidth={roomDisplayerMeasurements.width}
+            />
+          )}
           <MaterialsMenu
-            menuCoordinates={{ yCoordinate: roomDisplayerMeasurements.point, xCoordinate: 0 }}
+            menuCoordinates={{ yCoordinate: roomDisplayerMeasurements.baseYCoordinate, xCoordinate: 0 }}
             roomDisplayerWidth={roomDisplayerMeasurements.width}
           />
         </div>

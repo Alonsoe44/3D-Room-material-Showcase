@@ -1,6 +1,7 @@
+import { collection, getDocs } from 'firebase/firestore/lite'
 import Image from 'next/legacy/image'
 import React, { useEffect, useState } from 'react'
-import ItemSelector from '../../interfaces/itemSelector'
+import ItemSelector from '../../interfaces/ItemSelector'
 import RoomDisplayerMeasurements from '../../interfaces/RoomDisplayerMeasurements'
 import { db, getItemSelectorsCoordinates } from '../../utils/firebaseApp'
 import { absoluteXCoordinateFinder, absoluteYCoordinateFinder, itemPointerYPositionFinder } from '../../utils/helpers'
@@ -13,8 +14,9 @@ const RoomDisplayer = (): any => {
   console.log(itemSelectors)
   useEffect(() => {
     (async () => {
-      setItemSelectors(await getItemSelectorsCoordinates(db))
+      setItemSelectors(await getItemSelectorsCoordinates(db, collection, getDocs))
     })().catch((error) => console.log(error))
+
     const roomDisplayerElement = document.querySelector('.room-displayer') as HTMLElement
     window.addEventListener('resize', () => setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) }))
     setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })

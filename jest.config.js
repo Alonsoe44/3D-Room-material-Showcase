@@ -17,7 +17,10 @@ const customJestConfig = {
   collectCoverageFrom: [
     'src/**/*.tsx',
     'src/**/*.ts'
-  ]
+  ],
+  transform: {
+    '^.+\\.(t|j)sx?$': ['@swc/jest']
+  }
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

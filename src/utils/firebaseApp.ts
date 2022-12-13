@@ -4,7 +4,7 @@ import {
 } from 'firebase/firestore/lite'
 import { initializeApp } from 'firebase/app'
 import config from '../../firebase/config'
-import ItemSelector from '../interfaces/itemSelector'
+import ItemSelector from '../interfaces/ItemSelector'
 
 const firebaseApp = initializeApp(config)
 const db = getFirestore(firebaseApp) as any

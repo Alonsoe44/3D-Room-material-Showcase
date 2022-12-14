@@ -8,7 +8,6 @@ export default function Home (): any {
         <title>3d Room showcase</title>
         <meta name='description' content='You can see how every material look inside a kitchen, materials for the floor and more' />
       </Head>
-      <h1>3d Kitchen displayer</h1>
       <RoomDisplayer />
     </>
 

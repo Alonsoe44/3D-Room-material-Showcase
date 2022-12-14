@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import fingerprint from '../../assets/fingerprint.webp'
+import fingerprint from '../../assets/selector.webp'
 import { motion } from 'framer-motion'
 import { itemPointerSizeFinder } from '../../utils/helpers'
 

@@ -22,13 +22,13 @@ const MaterialsMenu = ({ menuCoordinates: { yCoordinate }, roomDisplayerWidth, i
       initial={{ y: 0 }}
       animate={{ y: roomDisplayerWidth <= 1024 ? -yCoordinate - 90 : -yCoordinate + 10 }}
       transition={{ duration: 0.2 }}
-      className='absolute lg:right-3  2xl:w-88 lg:w-80 w-full bg-lightBG lg:bg-opacity-0 z-20'
+      className='absolute lg:right-3  2xl:w-88 lg:w-80 w-full lg:bg-opacity-0 z-20'
     >
-      <ul className='flex lg:flex-col flex-row overflow-x-scroll w-full'>{
+      <ul className='flex lg:flex-col flex-row overflow-x-scroll w-full items-end'>{
        itemMaterials.map((material: Material) =>
          <MaterialCard
            key={material.id}
-           selected
+           selected={layersAndMaterial.selectedMaterial === material.id}
            material={material}
            layersAndMaterial={layersAndMaterial}
            setRoomLayer={setRoomLayer}

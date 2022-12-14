@@ -24,7 +24,7 @@ const MaterialsMenu = ({ menuCoordinates: { yCoordinate }, roomDisplayerWidth, i
       transition={{ duration: 0.2 }}
       className='absolute lg:right-3  2xl:w-88 lg:w-80 w-full lg:bg-opacity-0 z-20'
     >
-      <ul className='flex lg:flex-col flex-row overflow-x-scroll w-full items-end'>{
+      <ul className='flex lg:flex-col flex-row overflow-x-scroll md:overflow-hidden w-full items-end scrollbar-hide'>{
        itemMaterials.map((material: Material) =>
          <MaterialCard
            key={material.id}

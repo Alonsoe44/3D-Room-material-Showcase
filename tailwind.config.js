@@ -9,7 +9,9 @@ module.exports = {
       lightBG: '#000000',
       lightContrast: '#ffffff'
     },
-    extend: {}
-  },
-  plugins: []
+    extend: {},
+    plugins: [
+      require('tailwind-scrollbar-hide')
+    ]
+  }
 }

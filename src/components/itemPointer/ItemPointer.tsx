@@ -11,15 +11,17 @@ interface PointerCoordinates {
 interface ItemPointerProps {
   pointerCoordinates: PointerCoordinates
   roomDisplayerWidth: number
+  selectItem: () => any
 }
 
-const ItemPointer = ({ pointerCoordinates: { xCoordinate, yCoordinate }, roomDisplayerWidth }: ItemPointerProps): any => {
+const ItemPointer = ({ pointerCoordinates: { xCoordinate, yCoordinate }, roomDisplayerWidth, selectItem }: ItemPointerProps): any => {
   return (
     <motion.button
-      className='absolute bottom-0'
+      className='absolute bottom-0 active:scale-[0.90]'
       initial={{ y: 0, x: 0 }}
       animate={{ y: yCoordinate, x: xCoordinate }}
       transition={{ duration: 0.2 }}
+      onClick={() => selectItem()}
     >
       <Image
         src={fingerprint}

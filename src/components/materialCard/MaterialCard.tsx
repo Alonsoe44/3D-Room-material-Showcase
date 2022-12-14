@@ -11,10 +11,10 @@ interface MaterialCardProps {
   setRoomLayer: Dispatch<SetStateAction<LayersAndMaterial>>
 }
 
-const MaterialCard = ({ material: { name: materialName, materialPreview, points, id: materialId, layers }, layersAndMaterial, setRoomLayer }: MaterialCardProps): any => {
+const MaterialCard = ({ material: { name: materialName, materialPreview, points, id: materialId, layers }, layersAndMaterial, setRoomLayer, selected }: MaterialCardProps): any => {
   return (
     <motion.li
-      className=' w-min my-3 rounded-md bg-lightContrast p-2 text-sm mx-2'
+      className=' w-min my-3 rounded-md bg-lightContrast/70 p-2 text-sm mx-2'
       initial={{ x: 20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -30,7 +30,7 @@ const MaterialCard = ({ material: { name: materialName, materialPreview, points,
           })
         }}
       >
-        <div className='w-32 flex justify-center'>
+        <div className={`flex justify-center ${selected ? 'sm:w-40 w-32 visible' : 'w-0 invisible'}`}>
           <p className=''>{materialName}</p>
         </div>
         <div className='lg:w-24 w-16'>

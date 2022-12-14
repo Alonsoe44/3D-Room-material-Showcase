@@ -14,14 +14,14 @@ const RoomDisplayer = (): any => {
   const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState<RoomDisplayerMeasurements>({ width: 390, baseYCoordinate: 100 })
   const [itemSelectors, setItemSelectors] = useState<ItemSelector[]>([])
   const [selectedItemMaterials, setSelectedItemMaterials] = useState<Material[]>([])
-  const [LayersAndMaterial, setLayersAndMaterial] = useState<LayersAndMaterial>({ selectedMaterial: 'no Material selected', selectedLayers: [] })
+  const [layersAndMaterial, setLayersAndMaterial] = useState<LayersAndMaterial>({ selectedMaterial: 'no Material selected', selectedLayers: [] })
 
   useEffect(() => {
     (async () => {
       const newSelectors = await getItemSelectorsCoordinates(db, collection, getDocs)
       setItemSelectors(newSelectors)
       setLayersAndMaterial({
-        ...LayersAndMaterial,
+        ...layersAndMaterial,
         selectedLayers: newSelectors.map((selector) => ({ layerId: selector.id, layerImage: 'none', layerName: 'none' }))
       })
     })()
@@ -64,10 +64,10 @@ const RoomDisplayer = (): any => {
             menuCoordinates={{ yCoordinate: roomDisplayerMeasurements.baseYCoordinate, xCoordinate: 0 }}
             roomDisplayerWidth={roomDisplayerMeasurements.width}
             itemMaterials={selectedItemMaterials}
-            layersAndMaterial={LayersAndMaterial}
+            layersAndMaterial={layersAndMaterial}
             setRoomLayer={setLayersAndMaterial}
           />
-          {LayersAndMaterial.selectedLayers.filter((layer) => layer.layerImage !== 'none')
+          {layersAndMaterial.selectedLayers.filter((layer) => layer.layerImage !== 'none')
             .map((layer) =>
               <Image
                 className='absolute top-0 z-0 object-contain'

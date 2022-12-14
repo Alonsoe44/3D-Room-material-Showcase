@@ -17,7 +17,7 @@ interface ItemPointerProps {
 const ItemPointer = ({ pointerCoordinates: { xCoordinate, yCoordinate }, roomDisplayerWidth, selectItem }: ItemPointerProps): any => {
   return (
     <motion.button
-      className='absolute bottom-0 active:scale-[0.90]'
+      className='absolute bottom-0 active:scale-[0.90] z-10'
       initial={{ y: 0, x: 0 }}
       animate={{ y: yCoordinate, x: xCoordinate }}
       transition={{ duration: 0.2 }}

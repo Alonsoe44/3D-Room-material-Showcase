@@ -13,7 +13,9 @@ const MaterialCard = ({ materialName, materialImage, roomDisplayerWidth }: Mater
   return (
     <motion.li
       className=' w-min my-3 rounded-md bg-lightContrast p-2 text-sm mx-2'
-
+      initial={{ x: 20, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
       <button className='flex justify-between items-center'>
         <div className='w-32 flex justify-center'>

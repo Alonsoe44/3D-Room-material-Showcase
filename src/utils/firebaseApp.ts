@@ -9,18 +9,16 @@ import ItemSelector from '../interfaces/ItemSelector'
 const firebaseApp = initializeApp(config)
 const db = getFirestore(firebaseApp) as any
 
-const nothinggg = async (db: any, localCollection: any, localQuery: any, localWhere: any, localGetDocs: any): Promise<any> => {
+const getItemMaterials = async (db: any, localCollection: any, localQuery: any, localWhere: any, localGetDocs: any, materialId: string): Promise<any> => {
   const materialsRef = collection(db, 'materials')
-  const somePointQuery = localQuery(
+  const itemQuery = localQuery(
     materialsRef,
-    localWhere('points', 'array-contains', 'EnRd8hAaNydVdVJ06qgF')
+    localWhere('points', 'array-contains', materialId)
   )
-  const pavimentoMaterialsSnapshot = await localGetDocs(somePointQuery)
-  const pavimentMaterials = pavimentoMaterialsSnapshot.docs.map((point: any) =>
-    point.data()
+  const itemMaterialsSnapshot = await localGetDocs(itemQuery)
+  const itemMaterials = itemMaterialsSnapshot.docs.map((point: any) => ({ ...point.data(), id: point.id })
   )
-  console.log(pavimentMaterials)
-  return pavimentMaterials
+  return itemMaterials
 }
 const getItemSelectorsCoordinates = async (db: any, customCollection: any, customGetDocs: any): Promise<ItemSelector[]> => {
   const itemSelectorsRef = collection(db, 'points')
@@ -30,4 +28,4 @@ const getItemSelectorsCoordinates = async (db: any, customCollection: any, custo
   return itemSelectorsExchangeCoordinates
 }
 
-export { getItemSelectorsCoordinates, db, nothinggg }
+export { getItemSelectorsCoordinates, db, getItemMaterials }

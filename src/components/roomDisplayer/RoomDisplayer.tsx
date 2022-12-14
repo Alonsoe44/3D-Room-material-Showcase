@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ItemSelector from '../../interfaces/ItemSelector'
 import Material from '../../interfaces/Material'
 import RoomDisplayerMeasurements from '../../interfaces/RoomDisplayerMeasurements'
+import LayersAndMaterial from '../../interfaces/SelectedLayersAndMaterial'
 import { db, getItemMaterials, getItemSelectorsCoordinates } from '../../utils/firebaseApp'
 import { absoluteXCoordinateFinder, absoluteYCoordinateFinder, itemPointerYPositionFinder } from '../../utils/helpers'
 import ItemPointer from '../itemPointer/ItemPointer'
@@ -12,18 +13,23 @@ import MaterialsMenu from '../materialsMenu/MaterialsMenu'
 const RoomDisplayer = (): any => {
   const [roomDisplayerMeasurements, setRoomDisplayerMeasurements] = useState<RoomDisplayerMeasurements>({ width: 390, baseYCoordinate: 100 })
   const [itemSelectors, setItemSelectors] = useState<ItemSelector[]>([])
-  const [selectedItem, setSelectedItem] = useState<Material[]>([])
-  console.log(itemSelectors)
-  console.log(selectedItem)
+  const [selectedItemMaterials, setSelectedItemMaterials] = useState<Material[]>([])
+  const [LayersAndMaterial, setLayersAndMaterial] = useState<LayersAndMaterial>({ selectedMaterial: 'no Material selected', selectedLayers: [] })
+
   useEffect(() => {
     (async () => {
-      setItemSelectors(await getItemSelectorsCoordinates(db, collection, getDocs))
-    })().catch((error) => console.log(error))
+      const newSelectors = await getItemSelectorsCoordinates(db, collection, getDocs)
+      setItemSelectors(newSelectors)
+      setLayersAndMaterial({
+        ...LayersAndMaterial,
+        selectedLayers: newSelectors.map((selector) => ({ layerId: selector.id, layerImage: 'none', layerName: 'none' }))
+      })
+    })()
+      .catch((error) => console.log(error))
 
     const roomDisplayerElement = document.querySelector('.room-displayer') as HTMLElement
     window.addEventListener('resize', () => setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) }))
     setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
-
     return () => {
       window.removeEventListener('resize', () =>
         setRoomDisplayerMeasurements({ width: roomDisplayerElement.clientWidth, baseYCoordinate: itemPointerYPositionFinder(roomDisplayerElement.clientWidth) })
@@ -50,15 +56,27 @@ const RoomDisplayer = (): any => {
               }}
               roomDisplayerWidth={roomDisplayerMeasurements.width}
               selectItem={async () => {
-                setSelectedItem(await getItemMaterials(db, collection, query, where, getDocs, itemSelector.id))
+                setSelectedItemMaterials(await getItemMaterials(db, collection, query, where, getDocs, itemSelector.id))
               }}
             />
           )}
           <MaterialsMenu
             menuCoordinates={{ yCoordinate: roomDisplayerMeasurements.baseYCoordinate, xCoordinate: 0 }}
             roomDisplayerWidth={roomDisplayerMeasurements.width}
-            itemMaterials={selectedItem}
+            itemMaterials={selectedItemMaterials}
+            layersAndMaterial={LayersAndMaterial}
+            setRoomLayer={setLayersAndMaterial}
           />
+          {LayersAndMaterial.selectedLayers.filter((layer) => layer.layerImage !== 'none')
+            .map((layer) =>
+              <Image
+                className='absolute top-0 z-0 object-contain'
+                src={layer.layerImage}
+                layout='fill'
+                key={layer.layerId + 'layer'}
+                alt={layer.layerName}
+              />
+            )}
         </div>
       </div>
     </section>

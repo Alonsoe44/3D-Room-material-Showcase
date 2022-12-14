@@ -1,6 +1,6 @@
 # 3D Room materials displayer
 
-Once again hellow there code enthusiasts, this one was a hard one, a lot of stopper and not so much time anyway let's dive in
+Once again hellow there code enthusiasts, this one was a hard one, a lot of stoppers and not so much time anyway let's dive in
 
 
 https://user-images.githubusercontent.com/78975724/207638648-4ac0f039-a64b-4435-aa47-588fd872396b.mp4
